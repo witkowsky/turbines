@@ -3,30 +3,54 @@
 {% block title %}Wyszukiwarka turbin{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    {{ form(form) }}
+    <div class="panel panel-primary">
+        <div class="panel-heading">Formularz</div>
+        <div class="panel-body">{{ form(form) }}</div>
+    </div>
 
     {% if resultsDto %}
-        Znalezione: {{ resultsDto.found | length  }}
-        Nieznalezione: {{ resultsDto.notFound | length }}
-        Unikalne turbiny przekazane do wyszukiwania: {{ uniqueTurbinesPassed }}
+        {% set validFound = resultsDto.valid  %}
+        {% set invalidFound = resultsDto.inValid  %}
 
-        <h1>znalezione:</h1>
-            {% for key, value in resultsDto.found %}
+        <div class="panel panel-default">
+            <div class="panel-heading">Szukane</div>
+            <div class="panel-body">
+                Wyszukiwane frazy: {{ passedTurbines }}<br>
+                Unikalne frazy: {{ uniqueTurbinesPassed }}<br>
+            </div>
+        </div>
+
+        <div class="panel panel-danger">
+            <div class="panel-heading">Nieznalezione: {{ resultsDto.notFound | length }}</div>
+            <div class="panel-body">
+                {% for value in resultsDto.notFound %}
+                    fraza: {{ value }}<br>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="panel panel-warning">
+            <div class="panel-heading">Znalezione prawdopodobnie: {{ invalidFound| length }}</div>
+            <div class="panel-body">
+                {% for key, value in invalidFound %}
                     <b>fraza: {{ key }}</b><br>
-                    {% for turbine in value %}
-                            nazwa: {{ turbine.name }} | lat: {{ turbine.lat }} | lon: {{ turbine.lon }}<br>
+                    {% for turbine in value.turbines %}
+                        nazwa: {{ turbine.name }} | lat: {{ turbine.lat }} | lon: {{ turbine.lon }}<br>
                     {% endfor %}
-            {% endfor %}
-        <h1>nieznalezione</h1>
-            {% for value in resultsDto.notFound %}
-                    <b>fraza: {{ value }}</b>
-            {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="panel panel-success">
+            <div class="panel-heading">Znalezione poprawnie: {{ validFound| length }}</div>
+            <div class="panel-body">
+                {% for key, value in validFound %}
+                    <b>fraza: {{ key }}</b><br>
+                    {% for turbine in value.turbines %}
+                        nazwa: {{ turbine.name }} | lat: {{ turbine.lat }} | lon: {{ turbine.lon }}<br>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
     {% endif %}
-</div>
 {% endblock %}

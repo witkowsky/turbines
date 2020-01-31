@@ -50,6 +50,7 @@ class IndexController extends AbstractController
         $resultsDto = null;
         $form = $this->createForm(FilterFormType::class);
         $uniqueTurbinesPassed = [];
+        $turbines = [];
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
@@ -75,6 +76,7 @@ class IndexController extends AbstractController
         return $this->render('index/index.html.twig', [
             'form' => $form->createView(),
             'resultsDto' => $resultsDto,
+            'passedTurbines' => count($turbines),
             'uniqueTurbinesPassed'=> count($uniqueTurbinesPassed)
         ]);
     }

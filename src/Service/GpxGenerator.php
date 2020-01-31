@@ -21,7 +21,7 @@ class GpxGenerator
         $dom->appendChild($gpx);
         $turbines = [];
         foreach ($dto->found as $foundDto) {
-            $turbines = array_merge($turbines, $foundDto);
+            $turbines = array_merge($turbines, $foundDto->turbines);
         }
 
         foreach ($turbines as $turbine) {

@@ -15,18 +15,18 @@ class FilterFormType extends AbstractType
     {
         $builder
             ->add('turbines', TextareaType::class, [
-                'label' => 'turbiny do wyszukania'
+                'label' => 'Turbiny do wyszukania'
             ])
             ->add('action', ChoiceType::class, [
                 'choices' => [
-                    'sprawdz' => 'check',
+                    'sprawdź' => 'check',
                     'pobierz gpx' => 'gpx',
                     'pobierz kml' => 'kml',
                 ],
                 'required' => true,
                 'label' => 'Akcja'
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, ['label' => 'Zatwierdź'])
         ;
     }
 

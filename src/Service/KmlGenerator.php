@@ -22,7 +22,7 @@ class KmlGenerator
         $dom->appendChild($kml);
         $turbines = [];
         foreach ($dto->found as $foundDto) {
-            $turbines = array_merge($turbines, $foundDto);
+            $turbines = array_merge($turbines, $foundDto->turbines);
         }
 
         /** @var TurbineDto $turbine */

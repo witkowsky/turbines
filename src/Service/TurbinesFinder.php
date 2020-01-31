@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Dto\FilterResultsDto;
+use App\Dto\FoundDto;
 use App\Dto\TurbineDto;
 
 class TurbinesFinder
@@ -24,12 +25,22 @@ class TurbinesFinder
                     $turbineNameFromCsv = trim($data[2]);
                     //ten sam na 100%
                     if ($turbineNameFromCsv == $turbines[$j] || $turbineNameFromCsv == 'V' . $turbines[$j]) {
-                        $found[$turbines[$j]] = [$data];
+                        $foundDto = new FoundDto();
+                        $foundDto->turbines = [new TurbineDto(trim($data[1]), trim($data[0]), trim($data[2]))];
+                        $foundDto->valid = true;
+                        $found[$turbines[$j]] = $foundDto;
                         //wyrzuc z listy szukanych
                         unset($turbines[$j]);
                     } elseif (strpos($turbineNameFromCsv, $turbines[$j]) !== false) {
                         //znalazlo podobny wrzuc na liste
-                        $found[$turbines[$j]][] = $data;
+                        if (isset($found[$turbines[$j]])) {
+                            /** @var FoundDto $foundDto */
+                            $foundDto = $found[$turbines[$j]];
+                        } else {
+                            $foundDto = new FoundDto();
+                            $found[$turbines[$j]] = $foundDto;
+                        }
+                        $foundDto->turbines[] = new TurbineDto(trim($data[1]), trim($data[0]), trim($data[2]));
                     }
                 }
             }
@@ -37,12 +48,8 @@ class TurbinesFinder
         }
 
         $result = new FilterResultsDto();
+        $result->found = $found;
         $result->notFound = array_diff($turbines, array_keys($found));
-        $result->found = array_map(function (array $innerTurbines) {
-            return array_map(function (array $turbine) {
-                return new TurbineDto(trim($turbine[1]), trim($turbine[0]), trim($turbine[2]));
-            }, $innerTurbines);
-        }, $found);
 
         return $result;
     }

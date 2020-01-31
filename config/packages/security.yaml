@@ -1,13 +1,27 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: null }
+        in_memory:
+            memory:
+                users:
+                    grzegorz:
+                        password: '%env(USER_PASSWORD_GRZEGORZ)%'
+                    user1:
+                        password: '%env(USER_PASSWORD_USER1)%'
+                    user2:
+                        password: '%env(USER_PASSWORD_USER2)%'
+                    user3:
+                        password: '%env(USER_PASSWORD_USER3)%'
+                    user4:
+                        password: '%env(USER_PASSWORD_USER4)%'
+                    user5:
+                        password: '%env(USER_PASSWORD_USER5)%'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
+            http_basic: ~
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -20,3 +34,6 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext

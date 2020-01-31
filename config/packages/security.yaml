@@ -6,6 +6,8 @@ security:
                 users:
                     grzegorz:
                         password: '%env(USER_PASSWORD_GRZEGORZ)%'
+                    marek:
+                        password: '%env(USER_PASSWORD_MAREK)%'
                     user1:
                         password: '%env(USER_PASSWORD_USER1)%'
                     user2:

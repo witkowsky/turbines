@@ -5,25 +5,22 @@ namespace App\Service;
 
 use App\Dto\FilterResultsDto;
 use App\Dto\TurbineDto;
+use DOMDocument;
 
-class KmlGenerator
+class KmlGenerator extends BaseGenerator
 {
     /**
-     * @param FilterResultsDto $dto
-     * @return \DOMDocument
+     * @param array $turbines
+     * @return DOMDocument
      */
-    public function generate(FilterResultsDto $dto): \DOMDocument
+    protected function generateDom(array $turbines): DOMDocument
     {
-        $dom = new \DOMDocument('1.0','utf-8');
+        $dom = new DOMDocument('1.0','utf-8');
         $dom->formatOutput = false;
 
         $kml = $dom->createElement('kml');
         $kml->setAttribute('xmlns', 'http://earth.google.com/kml/2.0');
         $dom->appendChild($kml);
-        $turbines = [];
-        foreach ($dto->found as $foundDto) {
-            $turbines = array_merge($turbines, $foundDto->turbines);
-        }
 
         /** @var TurbineDto $turbine */
         foreach ($turbines as $turbine) {

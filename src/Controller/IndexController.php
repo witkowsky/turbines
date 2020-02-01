@@ -62,7 +62,9 @@ class IndexController extends AbstractController
 
             $action = $data['action'];
             if ($action !== 'check') {
-                $response = new Response($this->getGenerator($action)->generate($resultsDto)->saveXML());
+                $downloadAll = $data['downloadAll'] ?? false;
+                $xmlSchema = $this->getGenerator($action)->generate($resultsDto, $downloadAll)->saveXML();
+                $response = new Response($xmlSchema);
                 $disposition = HeaderUtils::makeDisposition(
                     HeaderUtils::DISPOSITION_ATTACHMENT,
                     "turbiny.$action"

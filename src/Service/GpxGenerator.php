@@ -1,28 +1,22 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Dto\FilterResultsDto;
-use App\Dto\TurbineDto;
+use DOMDocument;
 
-class GpxGenerator
+class GpxGenerator extends BaseGenerator
 {
     /**
-     * @param FilterResultsDto $dto
-     * @return \DOMDocument
+     * @param array $turbines
+     * @return DOMDocument
      */
-    public function generate(FilterResultsDto $dto): \DOMDocument
+    public function generateDom(array $turbines): DOMDocument
     {
-        $dom = new \DOMDocument('1.0','utf-8');
+        $dom = new DOMDocument('1.0','utf-8');
         $dom->formatOutput = false;
-
         $gpx = $dom->createElement('gpx');
         $dom->appendChild($gpx);
-        $turbines = [];
-        foreach ($dto->found as $foundDto) {
-            $turbines = array_merge($turbines, $foundDto->turbines);
-        }
 
         foreach ($turbines as $turbine) {
             $wpt = $dom->createElement('wpt');

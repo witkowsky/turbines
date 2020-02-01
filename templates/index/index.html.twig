@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="panel panel-danger">
-                    <div class="panel-heading">Nieznalezione: {frazy: {{ resultsDto.notFound | length }}, turbiny: {{ validTurbines }} }</div>
+                    <div class="panel-heading">Nieznalezione: {frazy: {{ resultsDto.notFound | length }} }</div>
                     <div class="panel-body">
                         {% for value in resultsDto.notFound %}
                             fraza: {{ value }}<br>
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="panel panel-success">
-                    <div class="panel-heading">Znalezione poprawnie: {frazy: {{ validFound| length }}, turbiny: }</div>
+                    <div class="panel-heading">Znalezione poprawnie: {frazy: {{ validFound| length }}, turbiny: {{ validTurbines }} }</div>
                     <div class="panel-body">
                         {% for key, value in validFound %}
                             <b>fraza:</b> {{ key }} <b>turbiny:</b> {{ value.turbines |length }}<br>

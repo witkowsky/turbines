@@ -33,4 +33,29 @@ class FilterResultsDto
             return !$foundDto->valid;
         });
     }
+
+    /**
+     * @return int
+     */
+    public function countValid(): int
+    {
+        return $this->sumTurbines($this->getValid());
+    }
+
+    /**
+     * @return int
+     */
+    public function countInValid(): int
+    {
+        return $this->sumTurbines($this->getInValid());
+    }
+
+    /**
+     * @param $foundDtos
+     * @return float|int
+     */
+    private function sumTurbines($foundDtos)
+    {
+        return array_sum(array_map(function (FoundDto $foundDto) { return count($foundDto->turbines); }, $foundDtos));
+    }
 }
